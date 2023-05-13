@@ -70,31 +70,29 @@ class _HomePageState extends State<HomePage> {
             const Spacer(),
             Container(
               width: MediaQuery.of(context).size.width,
+              padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
                 color: const Color(0xFF252A34),
                 borderRadius: BorderRadius.circular(20),
               ),
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  children: const [
-                    QuestionsTile(
-                      text: 'Ciências da Natureza',
-                    ),
-                    SizedBox(height: 20),
-                    QuestionsTile(
-                      text: 'Ciências Humanas',
-                    ),
-                    SizedBox(height: 20),
-                    QuestionsTile(
-                      text: 'Linguagens',
-                    ),
-                    SizedBox(height: 20),
-                    QuestionsTile(
-                      text: 'Matemática',
-                    ),
-                  ],
-                ),
+              child: Column(
+                children: const [
+                  QuestionsTile(
+                    text: 'Ciências da Natureza',
+                  ),
+                  SizedBox(height: 20),
+                  QuestionsTile(
+                    text: 'Ciências Humanas',
+                  ),
+                  SizedBox(height: 20),
+                  QuestionsTile(
+                    text: 'Linguagens',
+                  ),
+                  SizedBox(height: 20),
+                  QuestionsTile(
+                    text: 'Matemática',
+                  ),
+                ],
               ),
             ),
           ],
