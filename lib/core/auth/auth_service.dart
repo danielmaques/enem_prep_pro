@@ -111,6 +111,33 @@ class AuthService {
     }
   }
 
+  Future<UserModel?> getUserData() async {
+    try {
+      final User? currentUser = _firebaseAuth.currentUser;
+      if (currentUser != null) {
+        final DocumentSnapshot<Map<String, dynamic>> userSnapshot =
+            await FirebaseFirestore.instance
+                .collection('users')
+                .doc(currentUser.uid)
+                .get();
+
+        if (userSnapshot.exists) {
+          final userData = userSnapshot.data();
+          return UserModel(
+            id: currentUser.uid,
+            email: currentUser.email!,
+            name: userData!['name'],
+          );
+        }
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print('Error getting user data: $e');
+      }
+    }
+    return null;
+  }
+
   Future<void> signOut() async {
     try {
       await _firebaseAuth.signOut();

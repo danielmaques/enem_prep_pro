@@ -5,8 +5,8 @@ import 'package:enem_prep_pro/core/widgets/pro_button.dart';
 import 'package:enem_prep_pro/core/widgets/pro_text_form_field.dart';
 import 'package:flutter/material.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({
+class SignUpPage extends StatefulWidget {
+  const SignUpPage({
     super.key,
     required this.authController,
   });
@@ -14,10 +14,10 @@ class LoginPage extends StatefulWidget {
   final AuthController authController;
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<SignUpPage> createState() => _SignUpPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,7 +37,7 @@ class _LoginPageState extends State<LoginPage> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: const [
                 Text(
-                  'Entrar',
+                  'Criar conta',
                   style: TextStyle(
                     fontSize: 30,
                     color: Colors.black,
@@ -45,7 +45,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 Text(
-                  'Faça login e prepare-se para o Enem com o nosso app!',
+                  'Cadastre-se e comece a se preparar para o \nEnem com o nosso app!',
                   style: TextStyle(
                     fontSize: 15,
                     color: Colors.black54,
@@ -77,15 +77,16 @@ class _LoginPageState extends State<LoginPage> {
                 // mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const SizedBox(height: 90),
-                  ValueListenableBuilder(
-                    valueListenable: widget.authController.emailController,
-                    builder: (context, em, child) {
-                      return ProTextFormField(
-                        label: 'Email',
-                        keyboardType: TextInputType.emailAddress,
-                        controller: widget.authController.emailController,
-                      );
-                    },
+                  ProTextFormField(
+                    label: 'Nome',
+                    keyboardType: TextInputType.name,
+                    controller: widget.authController.nameController,
+                  ),
+                  const SizedBox(height: 30),
+                  ProTextFormField(
+                    label: 'Email',
+                    keyboardType: TextInputType.emailAddress,
+                    controller: widget.authController.emailController,
                   ),
                   const SizedBox(height: 30),
                   ProTextFormField(
@@ -94,29 +95,13 @@ class _LoginPageState extends State<LoginPage> {
                     controller: widget.authController.passwordController,
                   ),
                   const SizedBox(height: 40),
-                  ValueListenableBuilder(
-                    valueListenable: widget.authController.authState,
-                    builder: (context, state, child) {
-                      return ProButton(
-                        label: 'ENTRAR',
-                        onPressed: () {
-                          widget.authController.signIn();
-                          if (state == AuthState.success) {}
-                        },
-                      );
+                  ProButton(
+                    label: 'CRIAR CONTA',
+                    onPressed: () {
+                      widget.authController.signUp();
                     },
                   ),
                   const SizedBox(height: 40),
-                  GestureDetector(
-                    onTap: () {},
-                    child: const Text(
-                      'CRIAR CONTA',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
                 ],
               ),
             ),
