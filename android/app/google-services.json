@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "1094486788787",
+    "project_id": "enempreppro",
+    "storage_bucket": "enempreppro.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1094486788787:android:8231860b39bd28d8583ec6",
+        "android_client_info": {
+          "package_name": "com.example.enem_prep_pro"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1094486788787-837nlmb3cd7pevqgrgi9oqj7q8dekn92.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBADKEDprbMlqzrpKA822VV6sQkhuDxVPE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1094486788787-837nlmb3cd7pevqgrgi9oqj7q8dekn92.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1094486788787-ldilv4blvncustde97l3dpkt5qvf7sd5.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.enemPrepPro"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

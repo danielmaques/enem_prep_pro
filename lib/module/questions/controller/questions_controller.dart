@@ -24,3 +24,4 @@ class QuestionsController {
     minutesNotifier.dispose();
   }
 }
+
