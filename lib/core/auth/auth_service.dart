@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:enem_prep_pro/core/auth/auth_usecase.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 import 'user_model.dart';
 
@@ -8,6 +10,8 @@ class AuthService {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
   ValueNotifier<UserModel?> user = ValueNotifier(null);
+
+  AuthService(AuthUseCase authUseCase);
 
   Future<void> signUpWithEmailAndPassword(
       String email, String password, String name) async {
@@ -72,6 +76,37 @@ class AuthService {
     } catch (e) {
       if (kDebugMode) {
         print('Error during sign in: $e');
+      }
+    }
+  }
+
+  Future<void> signInWithGoogle() async {
+    try {
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+      if (googleUser != null) {
+        final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+
+        final AuthCredential credential = GoogleAuthProvider.credential(
+          accessToken: googleAuth.accessToken,
+          idToken: googleAuth.idToken,
+        );
+
+        final UserCredential userCredential =
+            await _firebaseAuth.signInWithCredential(credential);
+
+        final User? currentUser = userCredential.user;
+        if (currentUser != null) {
+          user.value = UserModel(
+            id: currentUser.uid,
+            email: currentUser.email!,
+            name: currentUser.displayName!,
+          );
+        }
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print('Error during sign in with Google: $e');
       }
     }
   }
