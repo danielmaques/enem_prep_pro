@@ -2,11 +2,18 @@ import 'package:flutter/cupertino.dart';
 
 import 'auth_service.dart';
 
+enum AuthState {
+  success,
+  failure,
+}
+
 class AuthController {
   final AuthService authService;
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController nameController = TextEditingController();
+  final TextEditingController resetController = TextEditingController();
+  final ValueNotifier<AuthState> authState = ValueNotifier(AuthState.failure);
 
   AuthController(this.authService);
 
@@ -15,17 +22,47 @@ class AuthController {
     final String password = passwordController.text.trim();
     final String name = nameController.text.trim();
 
-    await authService.signUpWithEmailAndPassword(email, password, name);
+    try {
+      await authService.signUpWithEmailAndPassword(email, password, name);
+
+      authState.value = AuthState.success;
+    } catch (e) {
+      authState.value = AuthState.failure;
+    }
   }
 
   Future<void> signIn() async {
     final String email = emailController.text.trim();
     final String password = passwordController.text.trim();
 
-    await authService.signInWithEmailAndPassword(email, password);
+    try {
+      await authService.signInWithEmailAndPassword(email, password);
+
+      authState.value = AuthState.success;
+    } catch (e) {
+      authState.value = AuthState.failure;
+    }
+  }
+
+  Future<void> resetPassword() async {
+    String resetPassoword = resetController.text.trim();
+    try {
+      await authService.resetPassword(resetPassoword);
+      authState.value = AuthState.success;
+    } catch (e) {
+      authState.value = AuthState.failure;
+    }
   }
 
   Future<void> signOut() async {
     await authService.signOut();
+    authState.value = AuthState.success;
+  }
+
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    nameController.dispose();
+    authState.dispose();
   }
 }

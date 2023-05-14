@@ -5,10 +5,9 @@ import 'package:enem_prep_pro/core/widgets/pro_text_form_field.dart';
 import 'package:enem_prep_pro/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({
+class SignUpPage extends StatefulWidget {
+  const SignUpPage({
     super.key,
     required this.authController,
   });
@@ -16,10 +15,10 @@ class LoginPage extends StatefulWidget {
   final AuthController authController;
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<SignUpPage> createState() => _SignUpPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,7 +36,7 @@ class _LoginPageState extends State<LoginPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: const [
                   Text(
-                    'Entrar',
+                    'Criar conta',
                     style: TextStyle(
                       fontSize: 30,
                       color: Colors.black,
@@ -75,17 +74,18 @@ class _LoginPageState extends State<LoginPage> {
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
+                // mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  ValueListenableBuilder(
-                    valueListenable: widget.authController.emailController,
-                    builder: (context, em, child) {
-                      return ProTextFormField(
-                        label: 'Email',
-                        keyboardType: TextInputType.emailAddress,
-                        controller: widget.authController.emailController,
-                      );
-                    },
+                  ProTextFormField(
+                    label: 'Nome',
+                    keyboardType: TextInputType.name,
+                    controller: widget.authController.nameController,
+                  ),
+                  const SizedBox(height: 30),
+                  ProTextFormField(
+                    label: 'Email',
+                    keyboardType: TextInputType.emailAddress,
+                    controller: widget.authController.emailController,
                   ),
                   const SizedBox(height: 30),
                   ProTextFormField(
@@ -93,37 +93,14 @@ class _LoginPageState extends State<LoginPage> {
                     keyboardType: TextInputType.emailAddress,
                     controller: widget.authController.passwordController,
                   ),
-                  const SizedBox(height: 15),
-                  Row(
-                    children: [
-                      Expanded(child: Container()),
-                      GestureDetector(
-                        onTap: () {
-                          showBarModalBottomSheet(
-                            context: context,
-                            builder: (context) {
-                              return Container();
-                            },
-                          );
-                        },
-                        child: const Text(
-                          'Recuperar senha',
-                          textAlign: TextAlign.right,
-                          style: TextStyle(
-                            fontSize: 15,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 40),
                   ValueListenableBuilder(
                     valueListenable: widget.authController.authState,
                     builder: (context, state, child) {
                       return ProButton(
-                        label: 'ENTRAR',
+                        label: 'CRIAR CONTA',
                         onPressed: () {
-                          widget.authController.signIn();
+                          widget.authController.signUp();
                           if (state == AuthState.success) {
                             Modular.to.pushReplacementNamed(Routes.home);
                           }
@@ -131,19 +108,7 @@ class _LoginPageState extends State<LoginPage> {
                       );
                     },
                   ),
-                  const SizedBox(height: 25),
-                  GestureDetector(
-                    onTap: () {
-                      Modular.to.pushNamed(Routes.createUser);
-                    },
-                    child: const Text(
-                      'CRIAR CONTA',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ),
+                  const SizedBox(height: 40),
                 ],
               ),
             ),
