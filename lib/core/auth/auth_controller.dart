@@ -12,7 +12,8 @@ class AuthController {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController nameController = TextEditingController();
-  final ValueNotifier<AuthState> authState = ValueNotifier(AuthState.success);
+  final TextEditingController resetController = TextEditingController();
+  final ValueNotifier<AuthState> authState = ValueNotifier(AuthState.failure);
 
   AuthController(this.authService);
 
@@ -37,6 +38,16 @@ class AuthController {
     try {
       await authService.signInWithEmailAndPassword(email, password);
 
+      authState.value = AuthState.success;
+    } catch (e) {
+      authState.value = AuthState.failure;
+    }
+  }
+
+  Future<void> resetPassword() async {
+    String resetPassoword = resetController.text.trim();
+    try {
+      await authService.resetPassword(resetPassoword);
       authState.value = AuthState.success;
     } catch (e) {
       authState.value = AuthState.failure;

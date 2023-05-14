@@ -1,9 +1,10 @@
 import 'package:enem_prep_pro/core/auth/auth_controller.dart';
 import 'package:enem_prep_pro/core/style/app_colors.dart';
-import 'package:enem_prep_pro/core/widgets/custom_appbar.dart';
 import 'package:enem_prep_pro/core/widgets/pro_button.dart';
 import 'package:enem_prep_pro/core/widgets/pro_text_form_field.dart';
+import 'package:enem_prep_pro/routes.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({
@@ -22,42 +23,41 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.YELLOW,
-      appBar: const CustomAppBar(
-        text: 'EnemPrepPro',
-      ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 50),
-            decoration: const BoxDecoration(),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: const [
-                Text(
-                  'Criar conta',
-                  style: TextStyle(
-                    fontSize: 30,
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Text(
-                  'Cadastre-se e comece a se preparar para o \nEnem com o nosso app!',
-                  style: TextStyle(
-                    fontSize: 15,
-                    color: Colors.black54,
-                  ),
-                ),
-              ],
-            ),
-          ),
           Expanded(
             child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 50),
+              decoration: const BoxDecoration(),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  Text(
+                    'Criar conta',
+                    style: TextStyle(
+                      fontSize: 30,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Text(
+                    'Entre, desafie-se e prepare-se para brilhar no ENEM!',
+                    style: TextStyle(
+                      fontSize: 15,
+                      color: Colors.black54,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          SingleChildScrollView(
+            child: Container(
               width: MediaQuery.of(context).size.width,
-              padding: const EdgeInsets.symmetric(horizontal: 20),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 50),
               decoration: const BoxDecoration(
                 color: Colors.white,
                 boxShadow: [
@@ -76,7 +76,6 @@ class _SignUpPageState extends State<SignUpPage> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 // mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const SizedBox(height: 90),
                   ProTextFormField(
                     label: 'Nome',
                     keyboardType: TextInputType.name,
@@ -95,10 +94,18 @@ class _SignUpPageState extends State<SignUpPage> {
                     controller: widget.authController.passwordController,
                   ),
                   const SizedBox(height: 40),
-                  ProButton(
-                    label: 'CRIAR CONTA',
-                    onPressed: () {
-                      widget.authController.signUp();
+                  ValueListenableBuilder(
+                    valueListenable: widget.authController.authState,
+                    builder: (context, state, child) {
+                      return ProButton(
+                        label: 'CRIAR CONTA',
+                        onPressed: () {
+                          widget.authController.signUp();
+                          if (state == AuthState.success) {
+                            Modular.to.pushReplacementNamed(Routes.home);
+                          }
+                        },
+                      );
                     },
                   ),
                   const SizedBox(height: 40),
